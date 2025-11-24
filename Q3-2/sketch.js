@@ -24,13 +24,37 @@ function draw(){
   fill(64, 192, 64);
   rect(0, groundY, width, height - groundY);
 
-  // BLANK[1] キャラクターの左右移動
+  let gr = groundY-size;
 
+  if(keyIsDown(LEFT_ARROW))
+    if(keyIsDown(SHIFT)){x -= 20;}
+    else{x -= 10;}
+  if(keyIsDown(RIGHT_ARROW))    
+    if(keyIsDown(SHIFT)){x += 20;}
+    else{x += 10;}
+  x = constrain(x,size/2,width-(size/2));
+  y = constrain(y,height*0.3,gr);
   // BLANK[2] 重力とジャンプ
+  x += vx;
+  y += vy;
+  // vy += g;
+  if(y > gr){ 
+    if(keyIsDown(" ".charCodeAt(0))){
+      if(y < height*0.3){
+        vy = g*vy;
+      }
+      else
+        {vy = -2 * g * vy; 
+      }
+    }
+  }
+  else{vy += g;}
+
+ 
 
   // 速くなりすぎないように制限
-  vx = constrain(vx, -20, 20);
-  vy = constrain(vy, -20, 20);
+  vx = constrain(vx, -15, 15);
+  vy = constrain(vy, -15, 15);
 
   // 位置を更新
   x += vx;
