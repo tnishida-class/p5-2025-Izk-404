@@ -12,14 +12,7 @@ let s =0;
 
 function setup(){
   createCanvas(windowWidth,windowHeight);
-  vx=0;
-  vy=0;
-  x=width*0.3;
-  y=height*0.5;
-  enemies = [];
-  stars = [];
-  supers = [];
-  villans = [];
+  prepare();
 
 }
 
@@ -29,6 +22,67 @@ function windowResized(){
 
 
 function draw(){
+  background(160,192,255);
+  const groundY = height * 0.7;
+  fill(64, 192, 64);
+  rect(0, groundY, width, height - groundY);
+
+
+
+
+  if(keyIsDown(ENTER)){
+    return game = true;
+  }
+  if(keyIsDown(ESCAPE)){
+    return game = false;
+  }
+
+
+  if(game){
+    gamestart();
+  }
+  if(!game){
+    prepare();
+    title();
+    rule();
+  }
+
+}
+
+
+function title(){
+  push();
+  textAlign(CENTER,CENTER);
+  textSize(width*0.08+height*0.08);
+  fill(0,35,255);
+  stroke(255);
+  strokeWeight(10);
+  text("I's RUN",width/2,height/3);
+  textSize(width*0.03+height*0.03);
+  fill(0);
+  stroke(255);
+  strokeWeight(5);
+  text("Press ENTER to Start",width/2,height*4/7);
+  pop();
+}
+
+
+function prepare(){
+  s=0;
+  vx=0;
+  vy=0;
+  x=width*0.3;
+  y=height*0.5;
+  enemies = [];
+  stars = [];
+  supers = [];
+  villans = [];
+  game = false; 
+}
+
+
+
+function gamestart(){
   background(160,192,255);
   const groundY = height * 0.7;
   fill(64, 192, 64);
@@ -186,8 +240,7 @@ function draw(){
 
 
 
-
-  score(s,width*0.2,height*0.9);
+  score(s,width*0.2,height*0.8);
   rule();
 
 }
@@ -202,6 +255,13 @@ function score(s,x,y){
   stroke(0,35,255);
   strokeWeight(8);
   text(s+"pt",x,y);
+  pop();
+
+  push();
+  textSize(width*0.02+height*0.02);
+  textAlign(LEFT, CENTER);
+  fill(255);
+  text("ESC = Retry",x-width*0.05,y+height*0.1);
   pop();
 
   push();
