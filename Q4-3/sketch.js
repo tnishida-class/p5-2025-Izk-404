@@ -49,6 +49,8 @@ function draw(){
 
   if(frameCount % 20 === 0) { // 20フレームごとに新しい的を追加する
     // BLANK[1] 新しい的オブジェクトを作成して targets 配列に追加しよう
+    let t = {x:width/2, y:height/2, vx:random(-5,5), vy:random(-5,5), size:10};
+    targets.push(t);
   }
 
   // ボールに当たった or 大きくなりすぎた的を配列から削除する
@@ -60,8 +62,13 @@ function draw(){
       for(let j = 0; j < balls.length; j++){ // すべてのボールと衝突判定
         let b = balls[j];
         // BLANK[2]
+        const distance = dist(t.x,t.y, b.x,b.y);
+        const radian = (t.size+b.size)/2;
+        if (distance < radian){
+          hit = true;
+        }  //複雑な計算式をif文に使う時は、定数で定義する方がエラーが少ない！
       }
-      if(!hit) activeTargets.push(t); // 衝突していなければ生き残る
+      if(!hit) {activeTargets.push(t);} // 衝突していなければ生き残る
     }
   }
   targets = activeTargets; // 生き残った的だけを残す
