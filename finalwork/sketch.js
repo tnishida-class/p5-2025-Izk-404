@@ -19,6 +19,7 @@ function setup(){
   enemies = [];
   stars = [];
   supers = [];
+  villans = [];
 
 }
 
@@ -156,6 +157,36 @@ function draw(){
 
 
 
+  if(s>=150){
+    for(let i=0; i<villans.length; i++){
+      let e = villans[i];
+      fill(170,0,255);
+      ellipse(e.x,e.y,e.size);
+      e.x -= e.vx;
+    }
+    if(frameCount % 70 === 0){
+      let e = {x:width,y:random(height*0.3,groundY-15),vx:speed+5,vy:0,size:height*0.02};
+      villans.push(e);
+    }
+
+    const activeVillans = [];
+    for(let i = 0; i < villans.length; i++){
+      let e = villans[i];
+      let hit = false;
+      const distance = dist(x,y,e.x,e.y);
+      const radian = (size+e.size)/2;
+      if(distance<radian){
+        hit=true;
+      }
+      if(hit){s -= 5;}
+      if(!hit){activeVillans.push(e);}
+    }
+    villans = activeVillans;
+  }
+
+
+
+
   score(s,width*0.2,height*0.9);
   rule();
 
@@ -209,12 +240,13 @@ function score(s,x,y){
 
 function rule(){
   push();
-  textSize(width*0.02+height*0.02);
+  textSize(width*0.015+height*0.015);
   textAlign(LEFT, CENTER);
   fill(255);
   text("+1pt",width*0.5,height*0.8);
   text("−1pt",width*0.5,height*0.85);
   text("+3pt",width*0.5,height*0.9);
+  if(s>=150){text("−5pt",width*0.5,height*0.95);}
 
   fill(250,250,0);
   ellipse(width*0.45,height*0.8,height*0.04);
@@ -222,6 +254,10 @@ function rule(){
   ellipse(width*0.45,height*0.85,height*0.04);
   fill(0,0,230);
   ellipse(width*0.45,height*0.9,height*0.015);
+  if(s>=150){
+    fill(170,0,255);
+    ellipse(width*0.45,height*0.95,height*0.02);
+  }
 
   textSize(width*0.01+height*0.01);
   fill(255);
